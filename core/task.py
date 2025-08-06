@@ -24,15 +24,26 @@ def get_task(
     info_dict, environment_graph = load_task_from_yaml(yaml_file)
 
     reward_structure = {
-        0: BaseReward(reward=[0], seed=seed),
+        6: BaseReward(-5),
+        7: BaseReward(-1),
+        8: BaseReward(0),
+        9: BaseReward(1),
+        10: BaseReward(5),
     }
+
+    info_dict.update(
+        {
+            "position": {
+                0: "large-loss",
+                1: "small-loss",
+                2: "neutral",
+                3: "small-win",
+                4: "large-win",
+            }
+        }
+    )
 
     action_map = {}
-    reward_meaning = {
-        0: "null",
-    }
-
-    info_dict.update({"condition-meaning": reward_meaning})
 
     if render_backend == "pygame":
         from .backend_pygame import get_pygame_info

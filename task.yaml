@@ -1,7 +1,21 @@
 meta:
-  name: "task-template"
+  name: "mid"
   version: 0.0.1
   reduced_actions: Null
-  fullpoints: Null
+  fullpoints: 48
 graph:
-  0: []
+  0:
+    0:
+      next: [1, 2, 3, 4, 5]
+      prob: 0.2
+    skip: True
+  1: [8, 6]  # big lose
+  2: [8, 7]  # small lose
+  3: [8, 8]  # control
+  4: [9, 8]  # small win
+  5: [10, 8]  # small lose
+  6: []  # big lose - lose
+  7: []  # small lose - lose
+  8: []  # nothing
+  9: []  # small win - win
+  10: []  # large win - win

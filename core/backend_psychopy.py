@@ -3,6 +3,7 @@ try:
         ImageStimulus,
         FeedBackStimulus,
         ActionStimulusTooEarly,
+        BaseStimulus,
     )
     from ....stimuli import fixation_cross, mid_stimuli
 
@@ -11,6 +12,7 @@ except ImportError:
         ImageStimulus,
         FeedBackStimulus,
         ActionStimulusTooEarly,
+        BaseStimulus,
     )
     from rewardgym.stimuli import fixation_cross, mid_stimuli
 
@@ -23,7 +25,7 @@ def get_psychopy_info(
     **kwargs,
 ):
     reward_feedback = FeedBackStimulus(
-        2.0, text="{0}", target="reward", name="reward", bar_total=fullpoints
+        2.0, text="{0}", target="reward", name="reward", bar_total=fullpoints, rl_label="reward"
     )
 
     fix_isi = ImageStimulus(
@@ -35,7 +37,7 @@ def get_psychopy_info(
     )
 
     action_stim = ActionStimulusTooEarly(
-        duration=0.35, timeout_action=1, key_dict=key_dict
+        duration=0.35, timeout_action=1, key_dict=key_dict, rl_label="action",
     )
 
     def first_step(img, img2):
@@ -45,6 +47,7 @@ def get_psychopy_info(
                 image_paths=[img],
                 positions=[(0, 0)],
                 name="cue",
+                rl_label="obs",
             ),
             fix_isi,
             ImageStimulus(
@@ -58,6 +61,7 @@ def get_psychopy_info(
         ]
 
     final_step = [
+        BaseStimulus(duration=0.001, rl_label="obs"),
         reward_feedback,
     ]
 

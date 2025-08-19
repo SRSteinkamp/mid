@@ -5,7 +5,7 @@ except ImportError:
 
 
 def get_configs(stimulus_set: str = "1", use_abcd=True):
-    seed = check_random_state(int(stimulus_set))
+    random_state = check_random_state(int(stimulus_set))
 
     # 0 & 1 = win, 2  = neutral, 3 & 4 = lose
     condition_dict = {
@@ -28,19 +28,19 @@ def get_configs(stimulus_set: str = "1", use_abcd=True):
 
         n_blocks = 10
 
-        conditions = seed.permutation(condition_template * 2).tolist()
-        isi = seed.permutation(isi_template * 2).tolist()
+        conditions = random_state.permutation(condition_template * 2).tolist()
+        isi = random_state.permutation(isi_template * 2).tolist()
 
         for _ in range(n_blocks - 1):
             reject = True
             while reject:
-                condition_template = seed.permutation(condition_template * 2).tolist()
+                condition_template = random_state.permutation(condition_template * 2).tolist()
 
                 if conditions[-1] != condition_template[0]:
                     reject = False
                     conditions.extend(condition_template)
                     isi.extend(
-                        seed.permutation(
+                        random_state.permutation(
                             isi_template * 2, size=10, replace=False
                         ).tolist()
                     )
@@ -55,7 +55,7 @@ def get_configs(stimulus_set: str = "1", use_abcd=True):
         print("".join(["="] * 20))
         print(citation_notice)
         print("".join(["="] * 20))
-        trial_order = seed.choice(
+        trial_order = random_state.choice(
             list(stimulus_combinations.keys()), 1, replace=False
         ).item()
         stim_combinations = stimulus_combinations[trial_order]
